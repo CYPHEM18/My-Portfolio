@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Femisola Odejide Francis — Cybersecurity &amp; Offensive Security</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: dark;
+    --bg: #0D1117;
+    --bg-elev: #10161D;
+    --surface: #151C25;
+    --border: #232B36;
+    --text: #E7ECF1;
+    --text-muted: #8C97A3;
+    --accent: #52D6C8;
+    --accent-warm: #F0975B;
+    --font-head: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --font-body: 'IBM Plex Sans', 'Segoe UI', Arial, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+  }
+  *, *::before, *::after{ box-sizing: inherit; }
+  html{ scroll-behavior: smooth; scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px)); }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg{ max-width:100%; display:block; }
+
+  a{ color: inherit; text-decoration: none; }
+
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- Nav ---------- */
+  header.nav{
+    position: sticky;
+    top: 0;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 50;
+    background: rgba(13,17,23,0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 16px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 16px;
+  }
+  .nav-name{
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+  }
+  .nav-name span{ color: var(--accent); }
+  .nav-links{
+    display:flex;
+    gap: 26px;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+  }
+  .nav-links a:hover{ color: var(--text); }
+  .nav-cta{
+    border: 1px solid var(--border);
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+  .nav-cta:hover{ border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 720px){
+    .nav-links{ display:none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 88px 0 76px;
+    display:grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items:center;
+  }
+  .hero-role{
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin: 0 0 18px;
+  }
+  h1.hero-name{
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: clamp(2.1rem, 4.4vw, 3.15rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin: 0 0 20px;
+  }
+  .hero-desc{
+    color: var(--text-muted);
+    font-size: 1.08rem;
+    max-width: 46ch;
+    margin: 0 0 32px;
+  }
+  .hero-actions{ display:flex; gap: 14px; flex-wrap: wrap; }
+  .btn{
+    display:inline-block;
+    padding: 12px 22px;
+    border-radius: 7px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: var(--font-body);
+  }
+  .btn-primary{
+    background: var(--accent);
+    color: #04211D;
+  }
+  .btn-primary:hover{ background: #6FE2D5; }
+  .btn-ghost{
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-ghost:hover{ border-color: var(--text-muted); }
+
+  /* terminal */
+  .terminal{
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px -30px rgba(0,0,0,0.7);
+  }
+  .terminal-bar{
+    display:flex;
+    align-items:center;
+    gap: 7px;
+    padding: 11px 14px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .dot{ width:10px; height:10px; border-radius:50%; background: #3A424D; }
+  .terminal-title{
+    margin-left: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-muted);
+  }
+  .terminal-body{
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    padding: 20px 22px 24px;
+    min-height: 230px;
+    color: #C9D3DC;
+    white-space: pre-wrap;
+  }
+  .terminal-body .prompt{ color: var(--accent); }
+  .terminal-body .out{ color: var(--text-muted); }
+  .caret{
+    display:inline-block;
+    width: 7px; height: 1.05em;
+    background: var(--accent);
+    vertical-align: text-bottom;
+    animation: blink 1s steps(1) infinite;
+    margin-left: 2px;
+  }
+  @keyframes blink{ 50%{ opacity: 0; } }
+
+  @media (max-width: 860px){
+    .hero{ grid-template-columns: 1fr; padding: 56px 0 48px; }
+  }
+
+  /* ---------- Section shell ---------- */
+  section{ padding: 72px 0; border-top: 1px solid var(--border); }
+  .section-head{ margin-bottom: 40px; max-width: 60ch; }
+  h2{
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+  }
+  .section-sub{ color: var(--text-muted); font-size: 1rem; margin:0; }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 48px;
+    align-items:start;
+  }
+  .about-body p{ color: #C9D3DC; font-size: 1.02rem; max-width: 62ch; }
+  blockquote{
+    margin: 0;
+    padding: 22px 24px;
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 8px 8px 0;
+    font-family: var(--font-head);
+    font-size: 1.08rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  @media (max-width: 860px){
+    .about-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Arsenal ---------- */
+  .arsenal-groups{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  .arsenal-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+  }
+  .arsenal-card h3{
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--accent-warm);
+    margin: 0 0 14px;
+  }
+  .tag-row{ display:flex; flex-wrap: wrap; gap: 8px; }
+  .tag{
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: #C9D3DC;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  @media (max-width: 720px){
+    .arsenal-groups{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Capabilities ---------- */
+  .cap-list{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 36px;
+    list-style: none;
+    margin: 0; padding: 0;
+  }
+  .cap-list li{
+    display:flex;
+    gap: 12px;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 1rem;
+    color: #DDE4EA;
+  }
+  .cap-list li .glyph{
+    font-family: var(--font-mono);
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .cap-links{
+    display: inline-flex;
+    gap: 8px;
+    margin-left: 12px;
+    vertical-align: middle;
+  }
+  .cap-links a{
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .cap-links a:hover{ color: var(--accent); border-color: var(--accent); }
+  .cap-links .cap-label{
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    border: 1px dashed var(--border);
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  @media (max-width: 720px){
+    .cap-list{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Projects ---------- */
+  .proj-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .proj-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    display:flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.15s ease;
+  }
+  .proj-card:hover{ border-color: #3A4552; }
+  .proj-name{
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .proj-desc{ color: var(--text-muted); font-size: 0.94rem; flex-grow:1; }
+  .proj-link{
+    font-size: 0.86rem;
+    color: var(--accent);
+    align-self: flex-start;
+  }
+  .proj-link:hover{ color: var(--accent-warm); }
+  @media (max-width: 720px){
+    .proj-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Contact / footer ---------- */
+  footer{
+    padding: 64px 0 calc(56px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--border);
+  }
+  .contact-inner{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  footer h2{ max-width: 20ch; }
+  .contact-links{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 1rem;
+  }
+  .contact-links a{ color: #C9D3DC; }
+  .contact-links a:hover{ color: var(--accent); }
+  .foot-note{
+    margin-top: 56px;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+  }
+
+  /* ---------- Contact form ---------- */
+  .contact-lede{
+    color: var(--text-muted);
+    font-size: 1.02rem;
+    max-width: 54ch;
+    margin: 0 0 40px;
+  }
+  .form-terminal{
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 44px;
+    box-shadow: 0 20px 60px -30px rgba(0,0,0,0.6);
+  }
+  .form-body{ padding: 28px 26px 30px; }
+  .field{ margin-bottom: 20px; }
+  .field label{
+    display:block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .field label .path{ color: var(--accent); }
+  .field-input{
+    width:100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: border-color 0.15s ease;
+  }
+  .field-input::placeholder{ color: #5B6572; }
+  .field-input:focus{ outline: none; border-color: var(--accent); }
+  textarea.field-input{
+    min-height: 120px;
+    resize: vertical;
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+  }
+  .field-row{ display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px){
+    .field-row{ grid-template-columns: 1fr; }
+  }
+  .form-submit-row{
+    display:flex;
+    align-items:center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .form-status{
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    min-height: 1.2em;
+  }
+  .icon-row{ display:flex; gap: 12px; }
+  .icon-btn{
+    width: 44px; height: 44px;
+    display:flex; align-items:center; justify-content:center;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text-muted);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .icon-btn:hover{ border-color: var(--accent); color: var(--accent); }
+  .icon-btn svg{ width: 19px; height: 19px; }
+
+  :focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .caret{ animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-name">Femisola <span>Odejide</span></div>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#arsenal">Arsenal</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#projects">Projects</a>
+    </nav>
+    <a class="nav-cta" href="#contact">Get in touch</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top:none;">
+    <div>
+      <p class="hero-role">Cybersecurity &middot; Offensive Security</p>
+      <h1 class="hero-name">Femisola Odejide Francis</h1>
+      <p class="hero-desc">Cybersecurity graduate and junior penetration tester based in Osogbo, Nigeria, focused on web &amp; API security, vulnerability assessment, and recon automation.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#projects">View projects</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+    </div>
+    <div class="terminal" aria-hidden="true">
+      <div class="terminal-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="terminal-title">femisola@kali: ~</span>
+      </div>
+      <div class="terminal-body" id="termBody"></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-head">
+      <h2>About</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-body">
+        <p>I hold a B.Sc. in Cybersecurity from Osun State University and work as a junior penetration tester with confirmed findings across real-world targets through Nigerian cybersecurity and bug bounty circles. My focus areas are web application security, API penetration testing, and vulnerability assessment, and I build my own recon and automation tooling as I go &mdash; including the CYRECON framework and a set of smaller Python and Bash utilities that speed up the recon-to-report workflow.</p>
+        <p>I'm currently deepening my exploitation and vulnerability research skills alongside day-to-day bug bounty work, with the aim of taking on more advanced offensive security engagements.</p>
+      </div>
+      <blockquote>
+        "My goal is to grow into a world-class offensive security professional, contribute to the bug bounty community, and help secure Africa's digital infrastructure."
+      </blockquote>
+    </div>
+  </section>
+
+  <section id="arsenal">
+    <div class="section-head">
+      <h2>Technical arsenal</h2>
+      <p class="section-sub">Tools and platforms I use across recon, testing, and reporting.</p>
+    </div>
+    <div class="arsenal-groups">
+      <div class="arsenal-card">
+        <h3>Recon &amp; OSINT</h3>
+        <div class="tag-row">
+          <span class="tag">SubFinder</span>
+          <span class="tag">AssetFinder</span>
+          <span class="tag">Katana</span>
+          <span class="tag">LinkFinder</span>
+          <span class="tag">Google Dorking</span>
+        </div>
+      </div>
+      <div class="arsenal-card">
+        <h3>Testing &amp; exploitation</h3>
+        <div class="tag-row">
+          <span class="tag">Burp Suite</span>
+          <span class="tag">Nmap</span>
+          <span class="tag">Nessus</span>
+          <span class="tag">Metasploit</span>
+          <span class="tag">FFUF</span>
+          <span class="tag">DirBuster</span>
+          <span class="tag">BetterCAP</span>
+        </div>
+      </div>
+      <div class="arsenal-card">
+        <h3>Scripting &amp; automation</h3>
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">Bash</span>
+          <span class="tag">cURL</span>
+          <span class="tag">Httpx</span>
+        </div>
+      </div>
+      <div class="arsenal-card">
+        <h3>Platform &amp; infra</h3>
+        <div class="tag-row">
+          <span class="tag">Kali Linux</span>
+          <span class="tag">AWS CLI</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="capabilities">
+    <div class="section-head">
+      <h2>Capabilities</h2>
+    </div>
+    <ul class="cap-list">
+      <li><span class="glyph">$</span> Web &amp; API penetration testing</li>
+      <li><span class="glyph">$</span> Recon automation</li>
+      <li><span class="glyph">$</span> Bug bounty hunting
+        <span class="cap-links">
+          <span class="cap-label">HackerOne</span>
+          <span class="cap-label">Bugcrowd</span>
+        </span>
+      </li>
+      <li><span class="glyph">$</span> Vulnerability assessment</li>
+      <li><span class="glyph">$</span> OSINT &amp; dorking</li>
+      <li><span class="glyph">$</span> Responsible disclosure</li>
+      <li><span class="glyph">$</span> Threat hunting</li>
+      <li><span class="glyph">$</span> Security documentation</li>
+    </ul>
+  </section>
+
+  <section id="projects">
+    <div class="section-head">
+      <h2>Projects &amp; tools</h2>
+      <p class="section-sub">Tooling built to make recon, wordlist generation, and reporting faster.</p>
+    </div>
+    <div class="proj-grid">
+
+      <div class="proj-card">
+        <div class="proj-name">CYRECON</div>
+        <div class="proj-desc">A multi-purpose reconnaissance framework built as a final-year capstone project, automating recon steps across a target's attack surface.</div>
+        <a class="proj-link" href="https://github.com/CYPHEM18/CYRECON" target="_blank" rel="noopener">github.com/CYPHEM18/CYRECON</a>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-name">Jsanalyzer</div>
+        <div class="proj-desc">Scans JavaScript files for exposed endpoints, parameters, and other recon-relevant leads during web app testing.</div>
+        <a class="proj-link" href="https://github.com/CYPHEM18/Jsanalyzer" target="_blank" rel="noopener">github.com/CYPHEM18/Jsanalyzer</a>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-name">Combo-GEN</div>
+        <div class="proj-desc">Generates custom combo lists from target-specific patterns for authentication and brute-force testing.</div>
+        <a class="proj-link" href="https://github.com/CYPHEM18/Combo-GEN" target="_blank" rel="noopener">github.com/CYPHEM18/Combo-GEN</a>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-name">WORDGEN</div>
+        <div class="proj-desc">A companion wordlist generator for building targeted lists used in fuzzing and content discovery.</div>
+        <a class="proj-link" href="https://github.com/CYPHEM18/WORDGEN" target="_blank" rel="noopener">github.com/CYPHEM18/WORDGEN</a>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-name">SORTER_V3</div>
+        <div class="proj-desc">Sorts and cleans large URL and data sets collected during recon, keeping pipelines organized ahead of testing.</div>
+        <a class="proj-link" href="https://github.com/CYPHEM18/SORTER_V3" target="_blank" rel="noopener">github.com/CYPHEM18/SORTER_V3</a>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-name">Metasploitable2 Pentest Docs</div>
+        <div class="proj-desc">A documented, end-to-end penetration test walkthrough against the Metasploitable2 lab environment.</div>
+        <a class="proj-link" href="https://github.com/CYPHEM18/Metasploitable2-Pentest-Documentation" target="_blank" rel="noopener">github.com/CYPHEM18/Metasploitable2-Pentest-Documentation</a>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Send a message</h2>
+      <p class="contact-lede">Whether it's a security issue, a collaboration idea, or you just want to talk hacking &mdash; my inbox is open.</p>
+    </div>
+
+    <div class="form-terminal">
+      <div class="terminal-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="terminal-title">femisola@kali: ~/contact</span>
+      </div>
+      <form class="form-body" id="contactForm" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-name"><span class="path">~/name</span></label>
+            <input class="field-input" id="f-name" name="name" type="text" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="f-email"><span class="path">~/email</span></label>
+            <input class="field-input" id="f-email" name="email" type="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-subject"><span class="path">~/subject</span></label>
+          <input class="field-input" id="f-subject" name="subject" type="text" placeholder="What's this about?" required>
+        </div>
+        <div class="field">
+          <label for="f-message"><span class="path">~/message</span></label>
+          <textarea class="field-input" id="f-message" name="message" placeholder="Write your message here..." required></textarea>
+        </div>
+        <div class="form-submit-row">
+          <button class="btn btn-primary" type="submit">Send message</button>
+          <span class="form-status" id="formStatus" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </div>
+
+    <div class="contact-inner">
+      <div class="icon-row">
+        <a class="icon-btn" href="mailto:odejidefemisolafrancis@gmail.com" aria-label="Email" title="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+        <a class="icon-btn" href="https://www.linkedin.com/in/femisola-odejide-gmcpn-a3ab1135b" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4V21H3V8.98zM9 8.98h3.8v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.86V21H9V8.98z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://x.com/Cyphem175831" target="_blank" rel="noopener" aria-label="X / Twitter" title="X / Twitter">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 3h4.4l4 5.6L17 3h3l-6.4 8.1L21 21h-4.4l-4.3-6-5 6H4l6.8-8.4L4 3z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://github.com/CYPHEM18" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3.16 19.5c.5.1.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.95 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 015 0c1.9-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg>
+        </a>
+      </div>
+    </div>
+    <p class="foot-note">Femisola Odejide Francis &middot; Osogbo, Nigeria</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var el = document.getElementById('termBody');
+  var lines = [
+    {type:'cmd', text:'whoami'},
+    {type:'out', text:'Femisola Odejide "Cyphem" Francis'},
+    {type:'cmd', text:'cat focus.txt'},
+    {type:'out', text:'Web & API penetration testing\nRecon automation\nBug bounty hunting'},
+    {type:'cmd', text:''}
+  ];
+
+  function render(instant){
+    el.innerHTML = '';
+    lines.forEach(function(line, i){
+      var div = document.createElement('div');
+      if(line.type === 'cmd'){
+        div.innerHTML = '<span class="prompt">$</span> ' + line.text + (i === lines.length - 1 ? '<span class="caret"></span>' : '');
+      } else {
+        div.className = 'out';
+        div.textContent = line.text;
+      }
+      div.style.marginBottom = '10px';
+      el.appendChild(div);
+    });
+  }
+
+  if(reduce){
+    render(true);
+    return;
+  }
+
+  var i = 0;
+  function typeLine(){
+    if(i >= lines.length){ return; }
+    var line = lines[i];
+    var div = document.createElement('div');
+    div.style.marginBottom = '10px';
+    if(line.type === 'out'){ div.className = 'out'; }
+    el.appendChild(div);
+
+    if(line.type === 'cmd'){
+      var full = line.text;
+      var j = 0;
+      var iv = setInterval(function(){
+        div.innerHTML = '<span class="prompt">$</span> ' + full.slice(0, j) + '<span class="caret"></span>';
+        j++;
+        if(j > full.length){
+          clearInterval(iv);
+          i++;
+          setTimeout(typeLine, line.text === '' ? 0 : 260);
+        }
+      }, 32);
+    } else {
+      div.textContent = line.text;
+      i++;
+      setTimeout(typeLine, 380);
+    }
+  }
+  typeLine();
+})();
+</script>
+
+<script>
+(function(){
+  var form = document.getElementById('contactForm');
+  var status = document.getElementById('formStatus');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('f-name').value.trim();
+    var email = document.getElementById('f-email').value.trim();
+    var subject = document.getElementById('f-subject').value.trim();
+    var message = document.getElementById('f-message').value.trim();
+
+    if(!name || !email || !subject || !message){
+      status.textContent = '$ error: all fields are required';
+      return;
+    }
+
+    var body = 'From: ' + name + ' (' + email + ')\n\n' + message;
+    var mailto = 'mailto:odejidefemisolafrancis@gmail.com'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+
+    status.textContent = '$ opening mail client...';
+    window.location.href = mailto;
+  });
+})();
+</script>
+
+</body>
+</html>
