@@ -6,7 +6,7 @@ API penetration testing, vulnerability assessment, recon automation, and bug
 bounty work, plus a showcase of tools built along the way (CYRECON,
 Jsanalyzer, Combo-GEN, WORDGEN, SORTER_V3, and more).
 
-**Live site:** _add your Vercel URL here once deployed_
+**Live site:** https://my-portfolio-orcin-two-15.vercel.app/
 
 ## Tech
 
